@@ -1,10 +1,21 @@
 import classes from './CartButton.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { modalActions } from '../../store/modal_slice';
 
-const CartButton = (props) => {
+const CartButton = () => {
+
+  const numberOfCartItems = useSelector(state => state.cart.numberOfItems);
+
+  const dispatch = useDispatch()
+
+  const toggleCartDisplayHandler = () => {
+    dispatch(modalActions.setDisplaying())
+  };
+
   return (
-    <button className={classes.button}>
+    <button className={classes.button} onClick={toggleCartDisplayHandler}>
       <span>My Cart</span>
-      <span className={classes.badge}>1</span>
+      <span className={classes.badge}>{numberOfCartItems}</span>
     </button>
   );
 };
