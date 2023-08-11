@@ -20,7 +20,7 @@ const Notification = (props) => {
 
     return (
         <div className={finalError}>
-            <h1>{props.title}</h1>
+            <h2>{props.title}!</h2>
             <h2>{props.message}</h2>
         </div>
     )

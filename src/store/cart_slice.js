@@ -55,38 +55,32 @@ const cartSlice = createSlice({
 
 export const sendData = (cart) => {
   return async (dispatch) => {
-    dispatch(
-      modalActions.setNotification({
-        title: "Pending",
-        message: "Pending request",
-      })
-    );
+    dispatch(modalActions.setNotification({
+      title: "Pending",
+      message: "Request pending",
+    }))
     const sendRequest = async () => {
-      const response = await fetch(
-        "https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/cart.json",
-        { method: "PUT", body: JSON.stringify(cart) }
-      );
+      const response = await fetch('https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/cart.json', { 
+        method: 'PUT',
+        body: JSON.stringify(cart)
+      })
       if (!response.ok) {
-        throw new Error("Sending data failed");
+        throw new Error("Something went wrong")
       }
-    };
-    try {
-      await sendRequest();
-      dispatch(
-        modalActions.setNotification({
-          title: "Success",
-          message: "The request was successful",
-        })
-      );
-    } catch (error) {
-      dispatch(
-        modalActions.setNotification({
-          title: "Error",
-          message: "The request failed",
-        })
-      );
     }
-  };
+    try {
+      await sendRequest()
+      dispatch(modalActions.setNotification({
+        title: 'Success',
+        message: "Request successful"
+      }))
+    } catch (error) {
+      dispatch(modalActions.setNotification({
+        title: 'Error',
+        message: 'Request failed'
+      }))
+    }
+  }
 };
 
 export const cartActions = cartSlice.actions;

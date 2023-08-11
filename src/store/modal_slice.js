@@ -13,6 +13,7 @@ const modalSlice = createSlice({
       state.isDisplaying = !state.isDisplaying;
     },
     setNotification(state, action) {
+      console.log(action)
       state.notification = {
         title: action.payload.title,
         message: action.payload.message,

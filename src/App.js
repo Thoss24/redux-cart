@@ -7,6 +7,8 @@ import { sendData } from "./store/cart_slice";
 import { useDispatch } from "react-redux";
 import Notification from "./components/notification/Notification";
 
+let isInitial = true;
+
 function App() {
   const isCartDisplaying = useSelector((state) => state.modal.isDisplaying);
   const dispatch = useDispatch();
@@ -14,24 +16,22 @@ function App() {
   const cart = useSelector((state) => state.cart.cartItems);
   const notification = useSelector((state) => state.modal.notification);
 
-  let isInitial = true;
-
   useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
     dispatch(sendData(cart));
-  }, [cart]);
+  }, [cart, dispatch]);
 
   return (
     <Fragment>
-      {notification && (
+      {notification &&
         <Notification
           title={notification.title}
           message={notification.message}
         />
-      )}
+      }
       <Layout>
         {isCartDisplaying && <Cart />}
         <Products />
