@@ -3,7 +3,8 @@ import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import { useEffect, Fragment } from "react";
 import { useSelector } from "react-redux";
-import { sendData } from "./store/cart_slice";
+import { sendData } from "./store/cart_actions";
+import { getData } from "./store/cart_actions";
 import { useDispatch } from "react-redux";
 import Notification from "./components/notification/Notification";
 
@@ -23,6 +24,10 @@ function App() {
     }
     dispatch(sendData(cart));
   }, [cart, dispatch]);
+
+  useEffect(() => {
+    dispatch(getData(cart))
+  }, [cart, dispatch])
 
   return (
     <Fragment>

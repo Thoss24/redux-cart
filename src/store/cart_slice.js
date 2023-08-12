@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { modalActions } from "./modal_slice";
 
 const defaultCart = {
   cartItems: [],
@@ -11,6 +10,13 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: defaultCart,
   reducers: {
+    replaceCart(state, action) {
+      let totalItems = action.payload.reduce((prev, curr) => {return prev.quantity + curr.quantity});
+      let totalAmount = action.payload.reduce((prev, curr) => {return prev.total + curr.total});
+      state.cartItems = action.payload
+      // state.totalAmount = totalAmount
+      // state.numberOfItems = totalItems
+    },
     addItem(state, action) {
       state.totalAmount = state.totalAmount += action.payload.price;
 
@@ -52,36 +58,6 @@ const cartSlice = createSlice({
     },
   },
 });
-
-export const sendData = (cart) => {
-  return async (dispatch) => {
-    dispatch(modalActions.setNotification({
-      title: "Pending",
-      message: "Request pending",
-    }))
-    const sendRequest = async () => {
-      const response = await fetch('https://react-http-6cb96-default-rtdb.europe-west1.firebasedatabase.app/cart.json', { 
-        method: 'PUT',
-        body: JSON.stringify(cart)
-      })
-      if (!response.ok) {
-        throw new Error("Something went wrong")
-      }
-    }
-    try {
-      await sendRequest()
-      dispatch(modalActions.setNotification({
-        title: 'Success',
-        message: "Request successful"
-      }))
-    } catch (error) {
-      dispatch(modalActions.setNotification({
-        title: 'Error',
-        message: 'Request failed'
-      }))
-    }
-  }
-};
 
 export const cartActions = cartSlice.actions;
 export default cartSlice.reducer;
