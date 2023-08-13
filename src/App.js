@@ -26,8 +26,8 @@ function App() {
   }, [cart, dispatch]);
 
   useEffect(() => {
-    dispatch(getData(cart))
-  }, [cart, dispatch])
+    dispatch(getData())
+  }, [dispatch])
 
   return (
     <Fragment>
